@@ -1,10 +1,11 @@
 package com.example.instaclone
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.widget.Toast
-
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.instaclone.databinding.ActivitySignupBinding
 import com.example.instaclone.models.User
 import com.example.instaclone.utils.USER
@@ -13,6 +14,7 @@ import com.example.instaclone.utils.Uploadimage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,8 @@ class SignupActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(bind.root)
-
+        val text = "<font color=#cc0029>Already Have an account? </font> <font color=#1E88E5>Login</font>"
+        bind.Login.setText(Html.fromHtml(text))
         bind.signup.setOnClickListener() {
             if (bind.name.editText?.text.toString().isEmpty()
                 || bind.email.editText?.text.toString().isEmpty()
@@ -67,12 +70,13 @@ class SignupActivity : AppCompatActivity() {
                                 .document(currentUser.uid)
                                 .set(user)
                                 .addOnSuccessListener {
-                                    Toast.makeText(
-                                        this@SignupActivity,
-                                        "Registration successful",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    // You can add further actions after a successful registration
+                                    startActivity(
+                                        Intent(
+                                            this@SignupActivity,
+                                            HomeActivity::class.java
+                                        )
+                                    )
+                                    finish()
                                 }
                                 .addOnFailureListener { e ->
                                     Toast.makeText(
@@ -92,7 +96,7 @@ class SignupActivity : AppCompatActivity() {
                 }
             }
         }
-        bind.userproile.setOnClickListener{
+        bind.userproile.setOnClickListener {
             launcher.launch("image/*")
         }
     }
