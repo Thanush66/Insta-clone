@@ -19,4 +19,9 @@ class User {
         this.password = password
         this.email = email
     }
+
+    constructor(email:  String?, password: String?) {
+        this.email = email
+        this.password = password
+    }
 }
